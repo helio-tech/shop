@@ -17,7 +17,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">Start Bootstrap</a>
+                <a class="navbar-brand" href="/">Start Bootstrap</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
@@ -33,13 +33,13 @@
                             </ul>
                         </li>
                     </ul>
-                    <div class="d-flex">
-                        <a class="btn btn-outline-dark" href="{{ route('guest.cart.show') }}">
+                    <form class="d-flex">
+                        <button class="btn btn-outline-dark" type="submit">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">{{ Cart::count() }}</span>
-                        </a>
-                    </div>
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">{{ '0' }}</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </nav>
@@ -55,28 +55,38 @@
         <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    @foreach($products as $product)
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{ $product->name }}</h5>
-                                    <!-- Product price-->
-                                    ${{ $product->currentPrice->price }}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($order->items as $item)
+                                        <tr>
+                                            <td>{{ $item->price->product->id }}</td>
+                                            <td>{{ $item->price->product->name }}</td>
+                                            <td>{{ $item->quantity }}</td>
+                                            <td>{{ $item->price->price }}</td>
+                                            <td>{{ $item->price->price * $item->quantity }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <h4 class="float-left">Tổng giá trị: {{ $order->subtotal }}</h4>
                                 </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{ route('guest.add-to-cart', ['product_id' => $product->id]) }}">Add to Cart</a></div>
                             </div>
                         </div>
                     </div>
-                    @endforeach
                 </div>
             </div>
         </section>

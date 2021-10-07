@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Controllers\Guest;
+
+use App\Http\Controllers\Controller;
+use App\Models\Product;
+use Illuminate\Http\Request;
+
+class HomepageController extends Controller
+{
+    public function index()
+    {
+        $products = Product::all();
+
+        return view('guest.homepage.index', compact('products'));
+    }
+}
